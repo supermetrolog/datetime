@@ -1,0 +1,13 @@
+{
+    "name": "supermetrolog/datetime",
+    "autoload": {
+        "psr-4": {
+            "app\\": ""
+        }
+    },
+    "authors": [{
+        "name": "Supermetrolog",
+        "email": "billypro6@gmail.com"
+    }],
+    "require": {}
+}
