@@ -11,7 +11,7 @@ require __DIR__ . '/vendor/autoload.php';
 header("Content-Type: application/json");
 try {
     $controller = new DatetimeController();
-    $response = $controller->actionLocalTime();
+    $response = $controller->actionUtcZeroTime();
     echo json_encode($response);
 } catch (\Throwable $th) {
     echo json_encode(
