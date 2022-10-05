@@ -1,8 +1,8 @@
 <?php
 
-namespace app\lib;
+namespace app\lib\http;
 
-use app\repositories\timezonedb\HttpClientInterface;
+use app\lib\sdk\timezonedb\HttpClientInterface;
 
 class HttpClient implements HttpClientInterface
 {

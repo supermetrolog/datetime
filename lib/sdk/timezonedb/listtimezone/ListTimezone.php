@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\repositories\timezonedb\listtimezone;
+namespace app\lib\sdk\timezonedb\listtimezone;
 
 
 class ListTimezone

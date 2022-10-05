@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\repositories\timezonedb\timezone;
+namespace app\lib\sdk\timezonedb\timezone;
 
 
 class GetTimezone

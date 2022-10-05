@@ -1,9 +1,9 @@
 <?php
 
 
-namespace app\repositories\timezonedb\timezone;
+namespace app\lib\sdk\timezonedb\timezone;
 
-use app\repositories\timezonedb\Options;
+use app\lib\sdk\timezonedb\Options;
 
 class TimezoneOptions extends Options
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repositories\timezonedb;
+namespace app\lib\sdk\timezonedb;
 
 use InvalidArgumentException;
 use UnexpectedValueException;
