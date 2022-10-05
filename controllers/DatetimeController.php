@@ -71,7 +71,7 @@ class DatetimeController
 
     private function getCityByID(string $id): ?City
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=ft_extra', 'root', '');
+        $pdo = new PDO('mysql:host=db;dbname=ft_extra', 'user', 'password');
         $cityModel = new City($pdo);
         return $cityModel->getByID($id);
     }

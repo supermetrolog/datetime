@@ -2,7 +2,9 @@ version: '2'
 
 services:
   php:
+    container_name: php
     build: ./docker/php
+    restart: always
     volumes:
       - ./:/app
     working_dir: /app
@@ -10,3 +12,21 @@ services:
     ports:
       - 8000:8000
     command: bash -c "cd /app && composer install && php -S 0.0.0.0:8000 -t /app"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'ft_extra'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+      - ./mysql-dump:/docker-entrypoint-initdb.d
