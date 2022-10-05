@@ -8,7 +8,7 @@ use app\controllers\DatetimeController;
 use app\lib\response\ErrorResponse;
 
 require __DIR__ . '/vendor/autoload.php';
-header("Content-Type: application/json");
+header('Content-Type: application/json; charset=utf-8');
 try {
     $controller = new DatetimeController();
     $response = $controller->actionLocalTime();

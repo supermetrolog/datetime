@@ -33,7 +33,7 @@ class DatetimeController
 
         return new JsonResponse([
             'status' => 'OK',
-            'city_name' => $city->name,
+            'city_id' => $city->id,
             'utc_zero_time' => $utcZeroTime,
             'format_utc_zero_time' => date('Y-m-d H:i:s', $utcZeroTime),
             'local_time' => $localTime,
@@ -61,7 +61,7 @@ class DatetimeController
         $utcZeroTime = $datetimeModel->getUTCZeroTime($localTime, $city->latitude, $city->longitude);
         return new JsonResponse([
             'status' => 'OK',
-            'city_name' => $city->name,
+            'city_id' => $city->id,
             'local_time' => $localTime,
             'format_local_time' => date('Y-m-d H:i:s', $localTime),
             'utc_zero_time' => $utcZeroTime,
@@ -71,7 +71,11 @@ class DatetimeController
 
     private function getCityByID(string $id): ?City
     {
-        $pdo = new PDO('mysql:host=db;dbname=ft_extra', 'user', 'password');
+        $pdo = new PDO('mysql:host=db;dbname=ft_extra;charset=utf8', 'user', 'password');
+        $pdo->exec("SET GLOBAL character_set_client=utf8");
+        $pdo->exec("SET LOCAL character_set_connection=utf8");
+        $pdo->exec("SET LOCAL character_set_results=utf8");
+        $pdo->exec("SET LOCAL character_set_database=utf8");
         $cityModel = new City($pdo);
         return $cityModel->getByID($id);
     }
