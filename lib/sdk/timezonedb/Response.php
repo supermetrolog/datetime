@@ -42,7 +42,7 @@ class Response implements ResponseInterface
     {
         return $this->response['zoneStart'];
     }
-    public function getZoneEnd(): int
+    public function getZoneEnd(): ?int
     {
         return $this->response['zoneEnd'];
     }

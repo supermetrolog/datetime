@@ -10,5 +10,5 @@ interface ResponseInterface
     public function getStatus(): string;
     public function getOffset(): int;
     public function getZoneStart(): int;
-    public function getZoneEnd(): int;
+    public function getZoneEnd(): ?int;
 }

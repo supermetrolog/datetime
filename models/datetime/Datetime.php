@@ -2,66 +2,43 @@
 
 namespace app\models\datetime;
 
-use app\models\datetime\interfaces\TimezoneDBInterface;
-use Exception;
+use app\models\Timezone;
 
 date_default_timezone_set('Africa/Abidjan');
 
 class Datetime
 {
-    public TimezoneDBInterface $timezoneDB;
+    public Timezone $timezone;
 
-    public function __construct(TimezoneDBInterface $timezoneDB)
+    public function __construct(Timezone $timezone)
     {
-        $this->timezoneDB = $timezoneDB;
+        $this->timezone = $timezone;
     }
     public function in_interval(int $value, int $start, int $end): bool
     {
         return $value > $start && $value < $end;
     }
-    public function getLocalTime(int $utcZeroTime, int $lat, int $lng): int
+    public function getLocalTime(int $utcZeroTime): int
     {
-        $tzData = $this->timezoneDB->getTimezone(
-            [
-                'format' => 'json',
-                'by' => 'position',
-                'lat' => $lat,
-                'lng' => $lng
-            ]
-        );
-        if ($tzData->hasError()) {
-            throw new Exception($tzData->getMessage());
-        }
-        $timeWithOffset = $utcZeroTime + $tzData->getOffset();
-        if (!$tzData->getDST()) {
+        $timeWithOffset = $utcZeroTime + $this->timezone->offset;
+        if (!$this->timezone->dst) {
             return $timeWithOffset;
         }
 
-        if ($this->in_interval($utcZeroTime, $tzData->getZoneStart(), $tzData->getZoneEnd())) {
+        if ($this->in_interval($utcZeroTime, $this->timezone->zone_start, $this->timezone->zone_end)) {
             return  $timeWithOffset;
         }
 
         return $timeWithOffset - 60 * 60;
     }
-    public function getUTCZeroTime(int $localTime, int $lat, int $lng): int
+    public function getUTCZeroTime(int $localTime): int
     {
-        $tzData = $this->timezoneDB->getTimezone(
-            [
-                'format' => 'json',
-                'by' => 'position',
-                'lat' => $lat,
-                'lng' => $lng
-            ]
-        );
-        if ($tzData->hasError()) {
-            throw new Exception($tzData->getMessage());
-        }
-        $timeWithOffset = $localTime - $tzData->getOffset();
-        if (!$tzData->getDST()) {
+        $timeWithOffset = $localTime - $this->timezone->offset;
+        if (!$this->timezone->dst) {
             return $timeWithOffset;
         }
 
-        if ($this->in_interval($localTime, $tzData->getZoneStart(), $tzData->getZoneEnd())) {
+        if ($this->in_interval($localTime, $this->timezone->zone_start, $this->timezone->zone_end)) {
             return  $timeWithOffset;
         }
 

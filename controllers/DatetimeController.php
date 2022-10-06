@@ -7,6 +7,7 @@ use app\lib\response\JsonResponse;
 use app\lib\sdk\timezonedb\TimezoneDB;
 use app\models\City;
 use app\models\datetime\Datetime;
+use app\models\Timezone;
 use Exception;
 use PDO;
 
@@ -27,8 +28,11 @@ class DatetimeController
         if (!$city) {
             throw new Exception("city with id: \"$city_id\" not found");
         }
-
-        $datetimeModel = new Datetime(new TimezoneDB("http://api.timezonedb.com/v2.1", "ZE1WBLF2UVHV", new HttpClient()));
+        $timezone = $this->getTimezoneByCityID($city_id);
+        if (!$timezone) {
+            throw new Exception("timezone for city with id: \"$city_id\" not found");
+        }
+        $datetimeModel = new Datetime($timezone);
         $localTime = $datetimeModel->getLocalTime($utcZeroTime, $city->latitude, $city->longitude);
 
         return new JsonResponse([
@@ -56,8 +60,11 @@ class DatetimeController
         if (!$city) {
             throw new Exception("city with id: \"$city_id\" not found");
         }
-
-        $datetimeModel = new Datetime(new TimezoneDB("http://api.timezonedb.com/v2.1", "ZE1WBLF2UVHV", new HttpClient()));
+        $timezone = $this->getTimezoneByCityID($city_id);
+        if (!$timezone) {
+            throw new Exception("timezone for city with id: \"$city_id\" not found");
+        }
+        $datetimeModel = new Datetime($timezone);
         $utcZeroTime = $datetimeModel->getUTCZeroTime($localTime, $city->latitude, $city->longitude);
         return new JsonResponse([
             'status' => 'OK',
@@ -72,11 +79,14 @@ class DatetimeController
     private function getCityByID(string $id): ?City
     {
         $pdo = new PDO('mysql:host=db;dbname=ft_extra;charset=utf8', 'user', 'password');
-        $pdo->exec("SET GLOBAL character_set_client=utf8");
-        $pdo->exec("SET LOCAL character_set_connection=utf8");
-        $pdo->exec("SET LOCAL character_set_results=utf8");
-        $pdo->exec("SET LOCAL character_set_database=utf8");
         $cityModel = new City($pdo);
         return $cityModel->getByID($id);
+    }
+
+    private function getTimezoneByCityID(string $city_id): ?Timezone
+    {
+        $pdo = new PDO('mysql:host=db;dbname=ft_extra;charset=utf8', 'user', 'password');
+        $timezoneModel = new Timezone($pdo);
+        return $timezoneModel->getByCityID($city_id);
     }
 }

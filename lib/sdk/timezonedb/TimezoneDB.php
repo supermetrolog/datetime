@@ -45,7 +45,7 @@ class TimezoneDB implements TimezoneDBInterface
     {
         $resp = json_decode($this->httpClient->fetch($url), true);
         if (!is_array($resp)) {
-            throw new Exception('unknown data in http response');
+            throw new Exception("unknown data in http response with url: $url");
         }
         return new Response($resp);
     }
