@@ -11,8 +11,8 @@ $pdo = new PDO('mysql:host=db;dbname=ft_extra;charset=utf8', 'user', 'password')
 
 
 try {
-    $command = new ReloadDataCommand();
-    $command->actionIndex($pdo);
+    $command = new ReloadDataCommand($pdo);
+    $command->actionIndex();
     exit(0);
 } catch (\Throwable $th) {
     echo "ERROR! \n";

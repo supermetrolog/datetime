@@ -2,15 +2,16 @@
 
 namespace app\models\datetime;
 
+use app\models\datetime\interfaces\TimezoneInterface;
 use app\models\Timezone;
 
 date_default_timezone_set('Africa/Abidjan');
 
 class Datetime
 {
-    public Timezone $timezone;
+    public TimezoneInterface $timezone;
 
-    public function __construct(Timezone $timezone)
+    public function __construct(TimezoneInterface $timezone)
     {
         $this->timezone = $timezone;
     }
@@ -20,25 +21,25 @@ class Datetime
     }
     public function getLocalTime(int $utcZeroTime): int
     {
-        $timeWithOffset = $utcZeroTime + $this->timezone->offset;
-        if (!$this->timezone->dst) {
+        $timeWithOffset = $utcZeroTime + $this->timezone->getOffset();
+        if (!$this->timezone->getDST()) {
             return $timeWithOffset;
         }
 
-        if ($this->in_interval($utcZeroTime, $this->timezone->zone_start, $this->timezone->zone_end)) {
-            return  $timeWithOffset;
+        if ($this->in_interval($utcZeroTime, $this->timezone->getZoneStart(), $this->timezone->getZoneEnd())) {
+            return $timeWithOffset;
         }
 
         return $timeWithOffset - 60 * 60;
     }
     public function getUTCZeroTime(int $localTime): int
     {
-        $timeWithOffset = $localTime - $this->timezone->offset;
-        if (!$this->timezone->dst) {
+        $timeWithOffset = $localTime - $this->timezone->getOffset();
+        if (!$this->timezone->getDST()) {
             return $timeWithOffset;
         }
 
-        if ($this->in_interval($localTime, $this->timezone->zone_start, $this->timezone->zone_end)) {
+        if ($this->in_interval($localTime, $this->timezone->getZoneStart(), $this->timezone->getZoneEnd())) {
             return  $timeWithOffset;
         }
 

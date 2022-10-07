@@ -7,8 +7,8 @@ use app\lib\sdk\timezonedb\listtimezone\ListOptions;
 use app\lib\sdk\timezonedb\listtimezone\ListTimezone;
 use app\lib\sdk\timezonedb\timezone\GetTimezone;
 use app\lib\sdk\timezonedb\timezone\TimezoneOptions;
-use app\models\datetime\interfaces\ResponseInterface;
-use app\models\datetime\interfaces\TimezoneDBInterface;
+use app\models\dataload\interfaces\ResponseInterface;
+use app\models\dataload\interfaces\TimezoneDBInterface;
 use Exception;
 
 class TimezoneDB implements TimezoneDBInterface

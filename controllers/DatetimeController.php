@@ -2,9 +2,7 @@
 
 namespace app\controllers;
 
-use app\lib\http\HttpClient;
 use app\lib\response\JsonResponse;
-use app\lib\sdk\timezonedb\TimezoneDB;
 use app\models\City;
 use app\models\datetime\Datetime;
 use app\models\Timezone;
@@ -33,7 +31,7 @@ class DatetimeController
             throw new Exception("timezone for city with id: \"$city_id\" not found");
         }
         $datetimeModel = new Datetime($timezone);
-        $localTime = $datetimeModel->getLocalTime($utcZeroTime, $city->latitude, $city->longitude);
+        $localTime = $datetimeModel->getLocalTime($utcZeroTime);
 
         return new JsonResponse([
             'status' => 'OK',
@@ -65,7 +63,7 @@ class DatetimeController
             throw new Exception("timezone for city with id: \"$city_id\" not found");
         }
         $datetimeModel = new Datetime($timezone);
-        $utcZeroTime = $datetimeModel->getUTCZeroTime($localTime, $city->latitude, $city->longitude);
+        $utcZeroTime = $datetimeModel->getUTCZeroTime($localTime);
         return new JsonResponse([
             'status' => 'OK',
             'city_id' => $city->id,

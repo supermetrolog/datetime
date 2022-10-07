@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\datetime\interfaces;
+namespace app\models\dataload\interfaces;
 
 interface TimezoneDBInterface
 {

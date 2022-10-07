@@ -2,7 +2,7 @@
 
 namespace app\lib\sdk\timezonedb;
 
-use app\models\datetime\interfaces\ResponseInterface;
+use app\models\dataload\interfaces\ResponseInterface;
 
 class Response implements ResponseInterface
 {

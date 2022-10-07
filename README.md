@@ -2,7 +2,7 @@
 
 ## Установка 
   - `git clone`
-  - `docker-compose up (в корне проекта)`
+  - `docker-compose up --build (в корне проекта)`
   - `docker-compose exec php php /app/console/index.php (в корне проекта)`
   
 ## Использование API

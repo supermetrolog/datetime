@@ -4,8 +4,9 @@
 namespace app\models;
 
 use app\lib\model\Model;
+use app\models\datetime\interfaces\TimezoneInterface;
 
-class Timezone extends Model
+class Timezone extends Model implements TimezoneInterface
 {
 
     public int $id;
@@ -69,5 +70,24 @@ class Timezone extends Model
         $timezone = new self($this->db);
         $timezone->load($result);
         return $timezone;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+    public function getDST(): int
+    {
+        return $this->dst;
+    }
+
+    public function getZoneStart(): int
+    {
+        return $this->zone_start;
+    }
+
+    public function getZoneEnd(): ?int
+    {
+        return $this->zone_end;
     }
 }
